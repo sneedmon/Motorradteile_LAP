@@ -1,0 +1,9 @@
+tbl_modelle
+	FIDmarke: 
+		DELETE = CASCADE --> Wenn marken nicht mehr verkauft werden braucht man die modelle auch nicht mehr
+		UPDATE = CASCADE --> Cascade um weiter die modelle zur marke identifizieren zu können
+
+tbl_teile
+	FIDkategorie_teile
+		DELETE = RESTRICT --> OHNE KATEGORIE ZUWEISUNG IST DIE ANWENDUNG SO NICHT MÖGLICH
+		UPDATE = CASCADE --> Cascade um weiter die teile zur kategorie identifizieren zu können
