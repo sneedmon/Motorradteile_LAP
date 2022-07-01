@@ -43,15 +43,14 @@
                 . $where_marke . "
                 ORDER BY Markenname ASC
             ";
-
             $marken = $conn->query($markenSql) or die($conn->error);
             while ($marke = $marken->fetch_object()) {
                 echo "<li>";
                     echo $marke->Markenname;
                 echo "</li>";
+                
+                // Loop through tbl_modell and create WHERE clause
                 echo "<ul>";
-
-                    // Loop through tbl_modell and create WHERE clause
                     $where_modell = "";
                     if (array_key_exists("modell", $_POST)) {
                         if (strlen($_POST["modell"] > 0)) {
@@ -63,15 +62,16 @@
                             * 
                         FROM tbl_modelle 
                         WHERE FIDMarke=" . $marke->IDMarke . $where_modell . "
+                        ORDER BY tbl_modelle.Modell ASC
                     ";
                     $modelle = $conn->query($modellSql) or die($conn->error);
                     while ($modell = $modelle->fetch_object()) {
                         echo "<li>";
                             echo $modell->Modell;
                         echo "</li>";   
-                        echo "<ul>";
 
-                            // Loop through baureihen and create WHERE clause
+                        // Loop through baureihen and create WHERE clause
+                        echo "<ul>";
                             $where_bau = ["FIDModell=" . $modell->IDModell];
                             if (array_key_exists("baujahr", $_POST)) {
                                 if(intval($_POST["baujahr"])>0) {
@@ -79,7 +79,12 @@
                                     $where_bau[] = "BaujahrBis>=" . $_POST["baujahr"];
                                 }
                             }
-                            $bauSql = "SELECT * FROM tbl_baureihen WHERE " . implode(" AND ", $where_bau);
+                            $bauSql = "
+                                SELECT 
+                                    * 
+                                FROM tbl_baureihen 
+                                WHERE " . implode(" AND ", $where_bau)
+                            ;
                             $baureihen = $conn->query($bauSql) or die($conn->error);
                             while ($baureihe = $baureihen->fetch_object()) {                               
                                 echo "<li><a href='modell_teile.php?IDBaureihe=" . $baureihe->IDBaureihe . "'>" . $baureihe->BaujahrVon . " - " . $baureihe->BaujahrBis . " </a></li>";

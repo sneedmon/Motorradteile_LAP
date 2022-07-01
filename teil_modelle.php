@@ -40,7 +40,6 @@
                     echo $modell->Modell . " (";
                     echo $modell->BaujahrVon . " bis ";
                     echo $modell->BaujahrBis . ")";
-
                 echo "</li>";
             }
         ?>
