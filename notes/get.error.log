@@ -1,0 +1,1 @@
+Get-Content -Path "C:\xampp\apache\logs\error.log" -wait
